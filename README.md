@@ -73,147 +73,154 @@ To send a message to the ESP8266 board, we need to implement some code into your
 
 Copy the code below:
 
-       /*
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/telegram-control-esp32-esp8266-nodemcu-outputs/
-  
-  Project created using Brian Lough's Universal Telegram Bot Library: https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
-  Example based on the Universal Arduino Telegram Bot Library: https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/blob/master/examples/ESP8266/FlashLED/FlashLED.ino
-*/
-
-#ifdef ESP32
-#include <WiFi.h>
-#else
-#include <ESP8266WiFi.h>
-#endif
-#include <WiFiClientSecure.h>
-#include <UniversalTelegramBot.h>  // Universal Telegram Bot Library written by Brian Lough: https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
-#include <ArduinoJson.h>
-#include <FastLED.h>
-// Replace with your network credentials
-const char* ssid = "XXXX";
-const char* password = "XXXX";
-
-// Initialize Telegram BOT
-#define BOTtoken "XXXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"  // your Bot Token (Get from Botfather)
-
-// Use @myidbot to find out the chat ID of an individual or a group
-// Also note that you need to click "start" on a bot before it can
-// message you
-#define CHAT_ID "XXXXXXXXXX"
-
-#ifdef ESP8266
-X509List cert(TELEGRAM_CERTIFICATE_ROOT);
-#endif
-
-WiFiClientSecure client;
-UniversalTelegramBot bot(BOTtoken, client);
-
-// How many leds in your strip?
-#define NUM_LEDS 15
-
-// For led chips like WS2812, which have a data line, ground, and power, you just
-// need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
-// ground, and power), like the LPD8806 define both DATA_PIN and CLOCK_PIN
-// Clock pin only needed for SPI based chipsets when not using hardware SPI
-#define DATA_PIN D5
-#define CLOCK_PIN 13
-
-// Checks for new messages every 1 second.
-int botRequestDelay = 1000;
-unsigned long lastTimeBotRan;
-
-const int ledPin = D5;
-bool ledState = LOW;
-
-// Handle what happens when you receive new messages
-void handleNewMessages(int numNewMessages) {
-  Serial.println("handleNewMessages");
-  Serial.println(String(numNewMessages));
-
-  for (int i = 0; i < numNewMessages; i++) {
-    // Chat id of the requester
-    String chat_id = String(bot.messages[i].chat_id);
-    if (chat_id != CHAT_ID) {
-      bot.sendMessage(chat_id, "Unauthorized user", "");
-      continue;
-    }
-
-    // Print the received message
-    String text = bot.messages[i].text;
-    Serial.println(text);
-
-    String from_name = bot.messages[i].from_name;
-
-    if (text == "/start") {
-      String welcome = "Welcome, " + from_name + ".\n";
-      welcome += "Use the following commands to control your outputs.\n\n";
-      welcome += "/led_on to turn LEDs ON \n";
-      welcome += "/led_off to turn LEDs OFF \n";
-      welcome += "/state to request current LEDs state \n";
-      bot.sendMessage(chat_id, welcome, "");
-    }
-
-    if (text == "/led_on") {
-      bot.sendMessage(chat_id, "LED state set to ON", "");
-      ledState = HIGH;
-      digitalWrite(ledPin, ledState);
-    }
-
-    if (text == "/led_off") {
-      bot.sendMessage(chat_id, "LED state set to OFF", "");
-      ledState = LOW;
-      digitalWrite(ledPin, ledState);
-    }
-
-    if (text == "/state") {
-      if (digitalRead(ledPin)) {
-        bot.sendMessage(chat_id, "LED is ON", "");
-      } else {
-        bot.sendMessage(chat_id, "LED is OFF", "");
-      }
-    }
-  }
-}
-
-void setup() {
-  Serial.begin(115200);
-  FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
-#ifdef ESP8266
-  client.setInsecure();
-  configTime(0, 0, "pool.ntp.org");  // get UTC time via NTP
-  client.setTrustAnchors(&cert);     // Add root certificate for api.telegram.org
-#endif
-
-  pinMode(ledPin, OUTPUT);
-  digitalWrite(ledPin, ledState);
-
-  // Connect to Wi-Fi
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-#ifdef ESP32
-  client.setCACert(TELEGRAM_CERTIFICATE_ROOT);  // Add root certificate for api.telegram.org
-#endif
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi..");
-  }
-  // Print ESP32 Local IP Address
-  Serial.println(WiFi.localIP());
-}
-
-void loop() {
-  if (millis() > lastTimeBotRan + botRequestDelay) {
-    int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
-
-    while (numNewMessages) {
-      Serial.println("got response");
-      handleNewMessages(numNewMessages);
-      numNewMessages = bot.getUpdates(bot.last_message_received + 1);
-    }
-    lastTimeBotRan = millis();
-  }
-}
+             /*
+         Rui Santos
+         Complete project details at https://RandomNerdTutorials.com/telegram-control-esp32-esp8266-nodemcu-outputs/
+         
+         Project created using Brian Lough's Universal Telegram Bot Library: https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
+         Example based on the Universal Arduino Telegram Bot Library: https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/blob/master/examples/ESP8266/FlashLED/FlashLED.ino
+       */
+       
+       #ifdef ESP32
+       #include <WiFi.h>
+       #else
+       #include <ESP8266WiFi.h>
+       #endif
+       #include <WiFiClientSecure.h>
+       #include <UniversalTelegramBot.h>  // Universal Telegram Bot Library written by Brian Lough: https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
+       #include <ArduinoJson.h>
+       #include <FastLED.h>
+       // Replace with your network credentials
+       const char* ssid = "xxx";
+       const char* password = "xxx";
+       
+       // Initialize Telegram BOT
+       #define BOTtoken "xxx"  // your Bot Token (Get from Botfather)
+       
+       // Use @myidbot to find out the chat ID of an individual or a group
+       // Also note that you need to click "start" on a bot before it can
+       // message you
+       #define CHAT_ID "xxx"
+       
+       #ifdef ESP8266
+       X509List cert(TELEGRAM_CERTIFICATE_ROOT);
+       #endif
+       
+       WiFiClientSecure client;
+       UniversalTelegramBot bot(BOTtoken, client);
+       
+       // How many leds in your strip?
+       #define NUM_LEDS 15
+       
+       // For led chips like WS2812, which have a data line, ground, and power, you just
+       // need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
+       // ground, and power), like the LPD8806 define both DATA_PIN and CLOCK_PIN
+       // Clock pin only needed for SPI based chipsets when not using hardware SPI
+       #define DATA_PIN D5
+       #define CLOCK_PIN 13
+       CRGB leds[NUM_LEDS];
+       // Checks for new messages every 1 second.
+       int botRequestDelay = 1000;
+       unsigned long lastTimeBotRan;
+       
+       const int ledPin = D5;
+       bool ledState = LOW;
+       
+       // Handle what happens when you receive new messages
+       void handleNewMessages(int numNewMessages) {
+         Serial.println("handleNewMessages");
+         Serial.println(String(numNewMessages));
+       
+         for (int i = 0; i < numNewMessages; i++) {
+           // Chat id of the requester
+           String chat_id = String(bot.messages[i].chat_id);
+           if (chat_id != CHAT_ID) {
+             bot.sendMessage(chat_id, "Unauthorized user", "");
+             continue;
+           }
+       
+           // Print the received message
+           String text = bot.messages[i].text;
+           Serial.println(text);
+       
+           String from_name = bot.messages[i].from_name;
+       
+           if (text == "/start") {
+             String welcome = "Welcome, " + from_name + ".\n";
+             welcome += "Use the following commands to control your outputs.\n\n";
+             welcome += "/led_on to turn LEDs ON \n";
+             welcome += "/led_off to turn LEDs OFF \n";
+             welcome += "/state to request current LEDs state \n";
+             bot.sendMessage(chat_id, welcome, "");
+           }
+       
+           if (text == "/led_on") {
+             ledState = HIGH;  // Update the state first
+             bot.sendMessage(chat_id, "LED state set to ON", "");
+             for (int i = 0; i < NUM_LEDS; i++) {
+               leds[i] = CRGB::White;
+             }
+             FastLED.show();
+           }
+       
+           if (text == "/led_off") {
+             ledState = LOW;  // Update the state first
+             bot.sendMessage(chat_id, "LED state set to OFF", "");
+             for (int i = 0; i < NUM_LEDS; i++) {
+               leds[i] = CRGB::Black;
+             }
+             FastLED.show();
+           }
+       
+           if (text == "/state") {
+             if (ledState == HIGH) {
+               bot.sendMessage(chat_id, "LED is ON", "");
+             } else {
+               bot.sendMessage(chat_id, "LED is OFF", "");
+             }
+           }
+         }
+       }
+       
+       void setup() {
+         Serial.begin(115200);
+         FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+       #ifdef ESP8266
+         client.setInsecure();
+         configTime(0, 0, "pool.ntp.org");  // get UTC time via NTP
+         client.setTrustAnchors(&cert);     // Add root certificate for api.telegram.org
+       #endif
+       
+         pinMode(ledPin, OUTPUT);
+       
+         ledState = LOW;
+       
+         // Connect to Wi-Fi
+         WiFi.mode(WIFI_STA);
+         WiFi.begin(ssid, password);
+       #ifdef ESP32
+         client.setCACert(TELEGRAM_CERTIFICATE_ROOT);  // Add root certificate for api.telegram.org
+       #endif
+         while (WiFi.status() != WL_CONNECTED) {
+           delay(1000);
+           Serial.println("Connecting to WiFi..");
+         }
+         // Print ESP32 Local IP Address
+         Serial.println(WiFi.localIP());
+       }
+       
+       void loop() {
+         if (millis() > lastTimeBotRan + botRequestDelay) {
+           int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
+       
+           while (numNewMessages) {
+             Serial.println("got response");
+             handleNewMessages(numNewMessages);
+             numNewMessages = bot.getUpdates(bot.last_message_received + 1);
+           }
+           lastTimeBotRan = millis();
+         }
+       }
 
 Click on your Arduino sketch code line, press _Copy All_ (CTRL A on Windows) and press _Paste_ (CTRL V on Windows).
 
@@ -238,4 +245,14 @@ const char* password = "XXXX";
 Fill in your network credentials, Telegram BOT code and CHAT ID code.
 
 _Can't find you BOT code or CHAT ID? Go back to step 1_
+
 _Are you connected to a 5GHz or 2.4GHz network? Depending on what you are using, this may not work. If you are using a 5GHz network, you will not be able to connect. In this case, start a hotspot on your phone and enter your credentials from your hotspot._
+
+_Before I pasted the previously added code, I was searching for the FastLED library to include it in the code. I couldn't initially figure out how to turn on the RGB LED strip using Telegram commands. After carefully reviewing the code, I made changes to the part of the code where it handles the "/led_on" command. Instead of the original code, I implemented code that would turn on the LEDs as defined in the FastLED library. I also added a delay to ensure that all the LEDs would turn on. Now, I am able to turn on the RGB LED strip successfully._
+
+Go to your Telegram App, type in your bot username and start using it!
+
+If you did everything right, you should be seeing this:
+
+https://github.com/FastLED/FastLED
+https://randomnerdtutorials.com/telegram-control-esp32-esp8266-nodemcu-outputs/
