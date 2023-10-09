@@ -60,4 +60,10 @@ Start a new sketch by clicking File -> New sketch
 
 ![image](https://github.com/Kvdekker/LED-Via-Telegram/assets/96053886/009f96cf-6424-4c19-85bf-77ea64174ab2)
 
-Click here to download the [Bot library for Arduino](https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/archive/master.zip)https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/archive/master.zip
+Click here to download the [Bot library for Arduino](https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/archive/master.zip).
+
+After you've downloaded the zip file, open it in the Arduino IDE by selecting Sketch -> Include Library -> Add.ZIP Library. Wait until the terminal at the bottom of your screen indicates that it's installed. Double-check in the Library Manager if ArduinoJson by Benoit Blanchon is installed.
+
+![image](https://github.com/Kvdekker/LED-Via-Telegram/assets/96053886/0ae80f84-c019-44c1-b098-e66a3f67d7c8)
+
+If you're done with downloading the library and setting up your Arduino, you can proceed to step 3!
