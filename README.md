@@ -34,6 +34,30 @@ Go to the magnifying glass icon at the top right and search for **BotFather**. Y
 
 ![image](https://github.com/Kvdekker/LED-Via-Telegram/assets/96053886/049280d9-6591-4e0d-a644-91d7e3660a5b)
 
+Click on the bot, then on start. You will receive a message. Type /newbot. Give your bot a name and a username (follow the instructions on your screen). If you are done, you should see the same as shown below:
 
+![image](https://github.com/Kvdekker/LED-Via-Telegram/assets/96053886/015f9b5c-19d3-4017-a919-b22aecd07aa0)
 
-## Complications Step 1
+Save the token; you will need it to enable the ESP8266 to interact with the bot.
+
+### Step 2: Prepare you Telegram
+Your bot's username is the key to interacting with your ESP8266 board. To ensure that messages from other sources are ignored, you can obtain your Telegram User ID. This ensures that when your Telegram bot receives a message, the ESP8266 can verify if the sender's ID matches your User ID, allowing it to process the message or ignore it accordingly.
+
+Return to your Telegram home screen and search for IDBot. Click on the same one as shown in the picture below:
+
+![image](https://github.com/Kvdekker/LED-Via-Telegram/assets/96053886/5a8a9584-20c2-4194-8625-5da7efedc0d2)
+
+Click on the /getid command or type /getid. Copy the row of numbers that the bot has provided. We will need to use this code later in this manual.
+
+_Unable to obtain the row of numbers? Return to your home screen, close the app and repeat step 2._
+
+### Step 3: Prepare your Arduino IDE
+For starters, make sure that you have the ESP8266 installed on your Arduino IDE.
+
+_Follow this tutorial if you haven't already: https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/_
+
+Start a new sketch by clicking File -> New sketch
+
+![image](https://github.com/Kvdekker/LED-Via-Telegram/assets/96053886/009f96cf-6424-4c19-85bf-77ea64174ab2)
+
+Click here to download the [Bot library for Arduino](https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/archive/master.zip)https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/archive/master.zip
