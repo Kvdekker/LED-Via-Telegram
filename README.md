@@ -242,17 +242,22 @@ const char* password = "XXXX";
 // message you
 #define CHAT_ID "XXXXXXXXXX"
 
+
 Fill in your network credentials, Telegram BOT code and CHAT ID code.
 
 _Can't find you BOT code or CHAT ID? Go back to step 1_
 
 _Are you connected to a 5GHz or 2.4GHz network? Depending on what you are using, this may not work. If you are using a 5GHz network, you will not be able to connect. In this case, start a hotspot on your phone and enter your credentials from your hotspot._
 
-_Before I pasted the previously added code, I was searching for the FastLED library to include it in the code. I couldn't initially figure out how to turn on the RGB LED strip using Telegram commands. After carefully reviewing the code, I made changes to the part of the code where it handles the "/led_on" command. Instead of the original code, I implemented code that would turn on the LEDs as defined in the FastLED library. I also added a delay to ensure that all the LEDs would turn on. Now, I am able to turn on the RGB LED strip successfully._
+_Before I pasted the previously added code, I was searching for the FastLED library to include it in the code. I couldn't initially figure out how to turn on the RGB LED strip using Telegram commands. After carefully reviewing the code, I made changes to the part of the code where it handles the "/led_on" command. Instead of the original code, I implemented code that would turn on the LEDs as defined in the FastLED library. I also added a delay to ensure that all the LEDs would turn on. In the end, only one yellow LED turned on instead of all 15._
 
 Go to your Telegram App, type in your bot username and start using it!
 
 If you did everything right, you should be seeing this:
+
+https://github.com/Kvdekker/LED-Via-Telegram/assets/96053886/276e0e73-248e-48e3-8c5c-1902eba2a95a
+
+Congratulations! You have your own working Led controller with the use of a Telegram bot!
 
 https://github.com/FastLED/FastLED
 https://randomnerdtutorials.com/telegram-control-esp32-esp8266-nodemcu-outputs/
